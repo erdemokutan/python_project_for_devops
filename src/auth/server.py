@@ -63,20 +63,20 @@ def validate():
     return decoded, 200
     
     
-    def createJWT(username,secret,authz):
-        return jwt.encode(
-            {
-                "username":username,
-                "exp":datetime.datetime.now(tz=datetime.timezone.utc)
-                + datetime.timedelta(days=1),
-                "iat":datetime.datetime.utcnow(), #iat=issued at
-                "admin":authz,
+def createJWT(username,secret,authz):
+    return jwt.encode(
+        {
+            "username":username,
+            "exp":datetime.datetime.now(tz=datetime.timezone.utc)
+            + datetime.timedelta(days=1),
+            "iat":datetime.datetime.utcnow(), #iat=issued at
+            "admin":authz,
 
-            },
-            secret,
-            algorithm="HS256",
+        },
+        secret,
+        algorithm="HS256",
 
-        )
+    )
     
 if __name__ == "__main__":
     server.run(host="0.0.0.0",port=5000)
