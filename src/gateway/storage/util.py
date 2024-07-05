@@ -23,3 +23,7 @@ def upload(f,fs,channel,access):
         )
     except:
         fs.delete(fid)
+        return "internal server error", 500
+    
+     
+    
