@@ -11,6 +11,7 @@ spec:
       app: gateway
   strategy:
     type: RollingUpdate
+    rollingUpdate:
       maxSurge: 3
   template:
     metadata:
