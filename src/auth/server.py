@@ -7,7 +7,7 @@ server = Flask(__name__)
 mysql = MySQL(server)
 
 #config
-server.config["MYSQL_HOST"] = os.environ.get("MYSQL_HOST", "localhost")
+server.config["MYSQL_PORT"] = int(os.environ.get("MYSQL_PORT"))
 server.config["MYSQL_USER"] = os.environ.get("MYSQL_USER")
 server.config["MYSQL_PASSWORD"] = os.environ.get("MYSQL_PASSWORD")
 server.config["MYSQL_DB"] = os.environ.get("MYSQL_DB")
@@ -42,7 +42,7 @@ def login():
     else:
         return "invalid credentials", 401
     
-@server.route("/validate",method=["POST"])
+@server.route("/validate",methods=["POST"])
 def validate():
     encoded_jwt=request.headers["Authorization"]
 
@@ -54,7 +54,7 @@ def validate():
 
     try:
         decoded=jwt.decode(
-            encoded_jwt,os.environ.get("JWT_SECRET"),algorithm=["HS256"]
+            encoded_jwt,os.environ.get("JWT_SECRET"),algorithms=["HS256"]
         )
 
     except:
