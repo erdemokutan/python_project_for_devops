@@ -53,14 +53,18 @@ def validate():
     encoded_jwt=encoded_jwt.split(" ")[1]
 
     try:
-        decoded=jwt.decode(
-            encoded_jwt,os.environ.get("JWT_SECRET"),algorithms=["HS256"]
-        )
-
-    except:
-        return "not authorized", 403
-    
-    return decoded, 200
+    decoded = jwt.decode(
+        encoded_jwt, os.environ.get("JWT_SECRET"), algorithms=["HS256"]
+    )
+except jwt.ExpiredSignatureError as e:
+    # Özel bir hata durumu ele alınabilir.
+    return "token expired", 403
+except jwt.InvalidTokenError as e:
+    # Genel JWT hatalarını yakala ve kullanıcıyı yetkisiz olarak işaretle.
+    return "not authorized", 403
+except Exception as e:
+    # Genel bir hata durumunu ele al ve yeniden yükselt.
+    return f"An error occurred: {str(e)}", 500
     
     
 def createJWT(username,secret,authz):
